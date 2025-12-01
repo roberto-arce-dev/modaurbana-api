@@ -9,6 +9,10 @@ import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { UploadModule } from './upload/upload.module';
 import { ClienteProfileModule } from './cliente-profile/cliente-profile.module';
+import { ProductoModule } from './producto/producto.module';
+import { CategoriaModule } from './categoria/categoria.module';
+import { CarritoModule } from './carrito/carrito.module';
+import { PedidoModule } from './pedido/pedido.module';
 
 @Module({
   imports: [
@@ -41,6 +45,10 @@ import { ClienteProfileModule } from './cliente-profile/cliente-profile.module';
     AuthModule,
     ClienteProfileModule,
     UploadModule,
+    ProductoModule,
+    CategoriaModule,
+    CarritoModule,
+    PedidoModule,
   ],
   controllers: [AppController],
   providers: [

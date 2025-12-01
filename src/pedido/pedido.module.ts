@@ -11,6 +11,8 @@ import { ProductoModule } from '../producto/producto.module';
   imports: [
     MongooseModule.forFeature([{ name: Pedido.name, schema: PedidoSchema }]),
     UploadModule,
+    ClienteProfileModule,
+    ProductoModule,
   ],
   controllers: [PedidoController],
   providers: [PedidoService],
