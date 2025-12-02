@@ -1,13 +1,14 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, Request } from '@nestjs/common';
+import { Controller, Get, Put, Body, Param } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
 import { ClienteProfileService } from './cliente-profile.service';
 import { CreateClienteProfileDto } from './dto/create-cliente-profile.dto';
 import { UpdateClienteProfileDto } from './dto/update-cliente-profile.dto';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { Role } from '../auth/enums/roles.enum';
+import { CurrentUser } from '../auth/decorators/current-user.decorator';
 
-@ApiTags('cliente-profile')
-@ApiBearerAuth()
+@ApiTags('ClienteProfile')
+@ApiBearerAuth('JWT-auth')
 @Controller('cliente-profile')
 export class ClienteProfileController {
   constructor(private readonly clienteprofileService: ClienteProfileService) {}
@@ -15,15 +16,15 @@ export class ClienteProfileController {
   @Get('me')
   @Roles(Role.CLIENTE, Role.ADMIN)
   @ApiOperation({ summary: 'Obtener mi perfil' })
-  async getMyProfile(@Request() req) {
-    return this.clienteprofileService.findByUserId(req.user.id);
+  async getMyProfile(@CurrentUser() user: any) {
+    return this.clienteprofileService.findByUserId(user.userId);
   }
 
   @Put('me')
   @Roles(Role.CLIENTE, Role.ADMIN)
   @ApiOperation({ summary: 'Actualizar mi perfil' })
-  async updateMyProfile(@Request() req, @Body() dto: UpdateClienteProfileDto) {
-    return this.clienteprofileService.update(req.user.id, dto);
+  async updateMyProfile(@CurrentUser() user: any, @Body() dto: UpdateClienteProfileDto) {
+    return this.clienteprofileService.update(user.userId, dto);
   }
 
   @Get()
