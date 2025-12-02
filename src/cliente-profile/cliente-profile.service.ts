@@ -34,7 +34,9 @@ export class ClienteProfileService {
       throw new NotFoundException('Usuario no encontrado');
     }
     const nombreFallback = user.email ? user.email.split('@')[0] : 'Usuario';
-    const created = await this.create(userId, { nombre: nombreFallback });
+    const created = await this.create(userId, {
+      nombre: nombreFallback,
+    });
     return created.populate('user', 'email role');
   }
 
