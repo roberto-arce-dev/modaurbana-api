@@ -1047,6 +1047,11 @@
       "key": "precioMax",
       "value": "",
       "type": "string"
+    },
+    {
+      "key": "filename",
+      "value": "",
+      "type": "string"
     }
   ]
 }
