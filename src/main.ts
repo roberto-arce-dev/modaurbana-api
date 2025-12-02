@@ -14,13 +14,24 @@ async function bootstrap() {
     new FastifyAdapter({ logger: true }),
   );
 
-  await app.register(multipart, {
-    limits: { fileSize: 5 * 1024 * 1024 },
-  });
+  await app.register(
+    multipart,
+    {
+      limits: { fileSize: 5 * 1024 * 1024 },
+    },
+  );
 
+  const staticRoot = join(__dirname, '..', 'uploads');
+
+  // Servir archivos estáticos (imágenes) en /uploads/* y /api/uploads/*
   await app.register(fastifyStatic, {
-    root: join(__dirname, '..', 'uploads'),
+    root: staticRoot,
     prefix: '/uploads/',
+    decorateReply: false,
+  });
+  await app.register(fastifyStatic, {
+    root: staticRoot,
+    prefix: '/api/uploads/',
     decorateReply: false,
   });
 
