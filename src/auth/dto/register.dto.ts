@@ -34,14 +34,15 @@ export class RegisterDto {
   @MinLength(6)
   password: string;
 
-  @ApiProperty({
+  @ApiPropertyOptional({
     example: Role.CLIENTE,
-    description: 'Rol del usuario',
+    description: 'Rol del usuario (solo CLIENTE permitido)',
     enum: [Role.CLIENTE],
+    default: Role.CLIENTE,
   })
-  @IsNotEmpty()
+  @IsOptional()
   @IsEnum([Role.CLIENTE])
-  role: Role;
+  role?: Role;
 
   @ApiProperty({
     example: 'Juan Pérez',

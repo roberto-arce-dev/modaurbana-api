@@ -46,21 +46,23 @@ export class AuthService implements OnModuleInit {
     }
 
     const hashedPassword = await bcrypt.hash(registerDto.password, 10);
+    const role = registerDto.role || Role.CLIENTE;
 
     // 1. Crear User (solo autenticación)
     const newUser = await this.userModel.create({
       email: registerDto.email,
       password: hashedPassword,
-      role: registerDto.role,
+      role,
     });
 
     try {
       // 2. Crear Profile según el rol (Factory Pattern)
       const userId = (newUser._id as any).toString();
+      let profile: any = null;
 
-      switch (registerDto.role) {
+      switch (role) {
       case Role.CLIENTE:
-        await this.clienteProfileService.create(userId, {
+        profile = await this.clienteProfileService.create(userId, {
           nombre: registerDto.nombre,
           telefono: registerDto.telefono,
           direccion: registerDto.direccion,
@@ -75,6 +77,7 @@ export class AuthService implements OnModuleInit {
 
       return {
         user: userWithoutPassword,
+        profile,
         access_token: this.generateToken(userObject),
       };
     } catch (error) {
@@ -97,11 +100,14 @@ export class AuthService implements OnModuleInit {
       throw new UnauthorizedException('Credenciales inválidas');
     }
 
+    const userId = (user._id as any).toString();
     const userObject = user.toObject();
     const { password, ...userWithoutPassword } = userObject;
+    const profile = await this.clienteProfileService.findOrCreateByUserId(userId);
 
     return {
       user: userWithoutPassword,
+      profile,
       access_token: this.generateToken(userObject),
     };
   }
@@ -113,7 +119,11 @@ export class AuthService implements OnModuleInit {
     }
     const userObject = user.toObject();
     const { password, ...userWithoutPassword } = userObject;
-    return userWithoutPassword;
+
+    // Adjuntar profile del cliente si existe (o crearlo si falta)
+    const profile = await this.clienteProfileService.findOrCreateByUserId(userId);
+
+    return { user: userWithoutPassword, profile };
   }
 
   private generateToken(user: any): string {

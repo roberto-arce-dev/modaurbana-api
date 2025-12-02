@@ -1,7 +1,6 @@
 import { Controller, Get, Put, Body, Param } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
 import { ClienteProfileService } from './cliente-profile.service';
-import { CreateClienteProfileDto } from './dto/create-cliente-profile.dto';
 import { UpdateClienteProfileDto } from './dto/update-cliente-profile.dto';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { Role } from '../auth/enums/roles.enum';
@@ -17,7 +16,7 @@ export class ClienteProfileController {
   @Roles(Role.CLIENTE, Role.ADMIN)
   @ApiOperation({ summary: 'Obtener mi perfil' })
   async getMyProfile(@CurrentUser() user: any) {
-    return this.clienteprofileService.findByUserId(user.userId);
+    return this.clienteprofileService.findOrCreateByUserId(user.userId);
   }
 
   @Put('me')
