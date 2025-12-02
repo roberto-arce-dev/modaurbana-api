@@ -7,22 +7,27 @@ import * as path from 'path';
 export class UploadService {
   private readonly uploadPath = 'uploads';
   private readonly thumbnailPath = 'uploads/thumbnails';
+  private readonly uploadRoot: string;
+  private readonly thumbnailRoot: string;
 
   constructor() {
+    this.uploadRoot = path.join(__dirname, '..', '..', this.uploadPath);
+    this.thumbnailRoot = path.join(__dirname, '..', '..', this.thumbnailPath);
+
     // Crear directorios si no existen
-    if (!fs.existsSync(this.uploadPath)) {
-      fs.mkdirSync(this.uploadPath, { recursive: true });
+    if (!fs.existsSync(this.uploadRoot)) {
+      fs.mkdirSync(this.uploadRoot, { recursive: true });
     }
-    if (!fs.existsSync(this.thumbnailPath)) {
-      fs.mkdirSync(this.thumbnailPath, { recursive: true });
+    if (!fs.existsSync(this.thumbnailRoot)) {
+      fs.mkdirSync(this.thumbnailRoot, { recursive: true });
     }
   }
 
   async uploadImage(file: Express.Multer.File): Promise<{ url: string; thumbnailUrl: string }> {
     const filename = `${Date.now()}-${file.originalname}`;
-    const imagePath = path.join(this.uploadPath, filename);
+    const imagePath = path.join(this.uploadRoot, filename);
     const thumbnailFilename = `thumb-${filename}`;
-    const thumbnailPath = path.join(this.thumbnailPath, thumbnailFilename);
+    const thumbnailPath = path.join(this.thumbnailRoot, thumbnailFilename);
 
     // Guardar imagen original
     await sharp(file.buffer)
@@ -52,8 +57,10 @@ export class UploadService {
 
   async deleteImage(imagePath: string): Promise<void> {
     const fullPath = imagePath.startsWith('uploads/') ? imagePath : path.join('uploads', imagePath);
-    if (fs.existsSync(fullPath)) {
-      fs.unlinkSync(fullPath);
+    const absolutePath = path.join(__dirname, '..', '..', fullPath);
+
+    if (fs.existsSync(absolutePath)) {
+      fs.unlinkSync(absolutePath);
     }
   }
 

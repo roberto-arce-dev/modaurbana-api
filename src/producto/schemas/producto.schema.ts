@@ -8,6 +8,9 @@ export class Producto {
   @Prop({ required: true })
   nombre: string;
 
+  @Prop()
+  descripcion?: string;
+
   @Prop({ enum: ['XS', 'S', 'M', 'L', 'XL', 'XXL'] })
   talla?: string;
 
@@ -20,7 +23,7 @@ export class Producto {
   @Prop()
   color?: string;
 
-  @Prop({ min: 0 })
+  @Prop({ required: true, min: 0 })
   precio: number;
 
   @Prop({ default: 0, min: 0 })
@@ -35,6 +38,8 @@ export class Producto {
   @Prop()
   imagenThumbnail?: string;
 
+  @Prop({ default: false })
+  tendencia?: boolean;
 }
 
 export const ProductoSchema = SchemaFactory.createForClass(Producto);

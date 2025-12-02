@@ -5,6 +5,8 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { ConfigService } from '@nestjs/config';
 import * as multipart from '@fastify/multipart';
+import fastifyStatic from '@fastify/static';
+import { join } from 'path';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
@@ -14,6 +16,12 @@ async function bootstrap() {
 
   await app.register(multipart, {
     limits: { fileSize: 5 * 1024 * 1024 },
+  });
+
+  await app.register(fastifyStatic, {
+    root: join(__dirname, '..', 'uploads'),
+    prefix: '/uploads/',
+    decorateReply: false,
   });
 
   app.enableCors();
