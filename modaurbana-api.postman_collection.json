@@ -211,13 +211,13 @@
               ]
             },
             "url": {
-              "raw": "{{baseUrl}}/producto/{{id}}/upload-image",
+              "raw": "{{baseUrl}}/producto/{{productoId}}/upload-image",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "producto",
-                "{{id}}",
+                "{{productoId}}",
                 "upload-image"
               ]
             },
@@ -293,13 +293,13 @@
               ]
             },
             "url": {
-              "raw": "{{baseUrl}}/categoria/{{id}}/upload-image",
+              "raw": "{{baseUrl}}/categoria/{{categoriaId}}/upload-image",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "categoria",
-                "{{id}}",
+                "{{categoriaId}}",
                 "upload-image"
               ]
             },
@@ -364,12 +364,10 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://localhost:3011/uploads/{{filename}}",
-              "protocol": "http",
+              "raw": "{{staticBase}}/uploads/{{filename}}",
               "host": [
-                "localhost"
+                "{{staticBase}}"
               ],
-              "port": "3011",
               "path": [
                 "uploads",
                 "{{filename}}"
@@ -385,12 +383,10 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://localhost:3011/uploads/thumbnails/{{filename}}",
-              "protocol": "http",
+              "raw": "{{staticBase}}/uploads/thumbnails/{{filename}}",
               "host": [
-                "localhost"
+                "{{staticBase}}"
               ],
-              "port": "3011",
               "path": [
                 "uploads",
                 "thumbnails",
@@ -500,7 +496,39 @@
       "name": "Producto",
       "item": [
         {
-          "name": "Filtrar Ropa",
+          "name": "Crear Producto",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Camiseta Urbana\",\n  \"descripcion\": \"Camiseta oversize de algodon\",\n  \"talla\": \"M\",\n  \"material\": \"Algodon\",\n  \"estilo\": \"Streetwear\",\n  \"color\": \"Negro\",\n  \"precio\": 49.99,\n  \"stock\": 25,\n  \"categoria\": \"{{categoriaId}}\",\n  \"imagen\": \"uploads/1700000000000-imagen.jpg\",\n  \"imagenThumbnail\": \"uploads/thumbnails/thumb-1700000000000-imagen.jpg\",\n  \"tendencia\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/producto",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "producto"
+              ]
+            },
+            "description": "Crear un producto. Campos obligatorios: nombre, precio, categoria."
+          },
+          "response": []
+        },
+        {
+          "name": "Listar Productos",
           "request": {
             "method": "GET",
             "header": [
@@ -511,16 +539,204 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/producto/filtros?talla={{talla}}&material={{material}}&estilo={{estilo}}",
+              "raw": "{{baseUrl}}/producto",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "producto"
+              ]
+            },
+            "description": "Lista todos los productos."
+          },
+          "response": []
+        },
+        {
+          "name": "Obtener Producto por ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/producto/{{productoId}}",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "producto",
-                "filtros?talla={{talla}}&material={{material}}&estilo={{estilo}}"
+                "{{productoId}}"
               ]
             },
-            "description": "Filtrar ropa por criterios"
+            "description": "Detalle del producto por ID."
+          },
+          "response": []
+        },
+        {
+          "name": "Actualizar Producto",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Camiseta actualizada\",\n  \"precio\": 59.99,\n  \"stock\": 30,\n  \"talla\": \"L\",\n  \"tendencia\": false\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/producto/{{productoId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "producto",
+                "{{productoId}}"
+              ]
+            },
+            "description": "Actualiza campos opcionales del producto (Partial DTO)."
+          },
+          "response": []
+        },
+        {
+          "name": "Eliminar Producto",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/producto/{{productoId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "producto",
+                "{{productoId}}"
+              ]
+            },
+            "description": "Elimina un producto y sus imágenes asociadas."
+          },
+          "response": []
+        },
+        {
+          "name": "Filtrar Productos",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/producto/filtros?talla={{talla}}&material={{material}}&estilo={{estilo}}&color={{color}}&precioMin={{precioMin}}&precioMax={{precioMax}}&categoria={{categoriaId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "producto",
+                "filtros"
+              ],
+              "query": [
+                {
+                  "key": "talla",
+                  "value": "{{talla}}"
+                },
+                {
+                  "key": "material",
+                  "value": "{{material}}"
+                },
+                {
+                  "key": "estilo",
+                  "value": "{{estilo}}"
+                },
+                {
+                  "key": "color",
+                  "value": "{{color}}"
+                },
+                {
+                  "key": "precioMin",
+                  "value": "{{precioMin}}"
+                },
+                {
+                  "key": "precioMax",
+                  "value": "{{precioMax}}"
+                },
+                {
+                  "key": "categoria",
+                  "value": "{{categoriaId}}"
+                }
+              ]
+            },
+            "description": "Filtra productos por talla, material, estilo, color, rango de precio y categoría."
+          },
+          "response": []
+        },
+        {
+          "name": "Productos por Categoría",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/producto/categoria/{{categoriaId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "producto",
+                "categoria",
+                "{{categoriaId}}"
+              ]
+            },
+            "description": "Lista productos por categoría."
+          },
+          "response": []
+        },
+        {
+          "name": "Productos en Tendencia",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/producto/tendencias",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "producto",
+                "tendencias"
+              ]
+            },
+            "description": "Top de productos marcados como tendencia."
           },
           "response": []
         }
@@ -629,7 +845,12 @@
   "variable": [
     {
       "key": "baseUrl",
-      "value": "http://localhost:3011/api",
+      "value": "http://localhost:3000/api",
+      "type": "string"
+    },
+    {
+      "key": "staticBase",
+      "value": "http://localhost:3000",
       "type": "string"
     }
   ]
