@@ -59,8 +59,8 @@ export class AuthController {
 
   @Get('profile')
   @ApiBearerAuth('JWT-auth')
-  @ApiOperation({ summary: 'Obtener perfil del usuario actual' })
-  @ApiResponse({ status: 200, description: 'Perfil obtenido exitosamente' })
+  @ApiOperation({ summary: 'Obtener perfil del usuario autenticado' })
+  @ApiResponse({ status: 200, description: 'Perfil obtenido exitosamente (cualquier usuario autenticado)' })
   @ApiResponse({ status: 401, description: 'No autorizado' })
   async getProfile(@CurrentUser() user: any) {
     const profile = await this.authService.getProfile(user.userId);

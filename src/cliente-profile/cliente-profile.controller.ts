@@ -13,14 +13,14 @@ export class ClienteProfileController {
   constructor(private readonly clienteprofileService: ClienteProfileService) {}
 
   @Get('me')
-  @Roles(Role.CLIENTE)
+  @Roles(Role.CLIENTE, Role.ADMIN)
   @ApiOperation({ summary: 'Obtener mi perfil' })
   async getMyProfile(@Request() req) {
     return this.clienteprofileService.findByUserId(req.user.id);
   }
 
   @Put('me')
-  @Roles(Role.CLIENTE)
+  @Roles(Role.CLIENTE, Role.ADMIN)
   @ApiOperation({ summary: 'Actualizar mi perfil' })
   async updateMyProfile(@Request() req, @Body() dto: UpdateClienteProfileDto) {
     return this.clienteprofileService.update(req.user.id, dto);
