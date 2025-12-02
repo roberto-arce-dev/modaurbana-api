@@ -493,6 +493,151 @@
       ]
     },
     {
+      "name": "Categoria",
+      "item": [
+        {
+          "name": "Crear Categoria",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Ropa Hombre\",\n  \"descripcion\": \"Prendas para hombre\",\n  \"imagen\": \"uploads/1700000000000-imagen.jpg\",\n  \"imagenThumbnail\": \"uploads/thumbnails/thumb-1700000000000-imagen.jpg\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/categoria",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "categoria"
+              ]
+            },
+            "description": "Crear categoría. Campo obligatorio: nombre."
+          },
+          "response": []
+        },
+        {
+          "name": "Listar Categorias",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/categoria",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "categoria"
+              ]
+            },
+            "description": "Lista todas las categorías."
+          },
+          "response": []
+        },
+        {
+          "name": "Obtener Categoria por ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/categoria/{{categoriaId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "categoria",
+                "{{categoriaId}}"
+              ]
+            },
+            "description": "Detalle de categoría por ID."
+          },
+          "response": []
+        },
+        {
+          "name": "Actualizar Categoria",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Ropa Hombre Actualizada\",\n  \"descripcion\": \"Prendas urbanas\",\n  \"imagen\": \"uploads/1700000000000-imagen.jpg\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/categoria/{{categoriaId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "categoria",
+                "{{categoriaId}}"
+              ]
+            },
+            "description": "Actualiza campos opcionales de la categoría."
+          },
+          "response": []
+        },
+        {
+          "name": "Eliminar Categoria",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/categoria/{{categoriaId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "categoria",
+                "{{categoriaId}}"
+              ]
+            },
+            "description": "Elimina la categoría y sus imágenes asociadas."
+          },
+          "response": []
+        }
+      ],
+      "description": "CRUD de Categorías (nombre obligatorio, descripción e imágenes opcionales)."
+    },
+    {
       "name": "Producto",
       "item": [
         {
@@ -851,6 +996,56 @@
     {
       "key": "staticBase",
       "value": "http://localhost:3000",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "productoId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "categoriaId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "clienteId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "talla",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "material",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "estilo",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "color",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "precioMin",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "precioMax",
+      "value": "",
       "type": "string"
     }
   ]
